@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matcha Match - Premium Matcha Discovery Platform</title>
+    <meta name="description" content="Discover the perfect matcha with our AI-powered recommendations, real-time stock updates, and advanced search features.">
+    <meta name="keywords" content="matcha, green tea, ceremonial matcha, premium tea, japanese tea, matcha powder">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍵</text></svg>">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#" class="brand-link">
+                    <span class="brand-icon">🍵</span>
+                    <span class="brand-text">Matcha Match</span>
+                </a>
+            </div>
+            
+            <div class="nav-search">
+                <div class="search-container">
+                    <input type="text" id="globalSearch" placeholder="Search premium matcha..." class="search-input">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <div class="autocomplete-dropdown" id="autocompleteDropdown"></div>
+                </div>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="nav-btn" id="recommendationsBtn">
+                    <i class="fas fa-magic"></i>
+                    <span>For You</span>
+                </button>
+                <button class="nav-btn" id="favoritesBtn">
+                    <i class="fas fa-heart"></i>
+                    <span>Saved</span>
+                </button>
+                <button class="nav-btn auth-btn" id="authBtn">
+                    <i class="fas fa-user"></i>
+                    <span>Sign In</span>
+                </button>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-background">
+            <div class="hero-gradient"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    Discover Your Perfect
+                    <span class="highlight">Matcha Match</span>
+                </h1>
+                <p class="hero-description">
+                    Experience the world's finest matcha with our AI-powered recommendations, 
+                    real-time inventory tracking, and curated selection from premium Japanese producers.
+                </p>
+                <div class="hero-features">
+                    <div class="feature-badge">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Recommendations</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-bolt"></i>
+                        <span>Real-time Updates</span>
+                    </div>
+                    <div class="feature-badge">
+                        <i class="fas fa-search"></i>
+                        <span>Smart Search</span>
+                    </div>
+                </div>
+                <div class="hero-cta">
+                    <button class="cta-primary" id="exploreBtn">
+                        <span>Explore Premium Matcha</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="cta-secondary" id="watchVideoBtn">
+                        <i class="fas fa-play"></i>
+                        <span>Watch Demo</span>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="floating-cards">
+                    <div class="product-card floating" style="--delay: 0s">
+                        <div class="card-image">🍃</div>
+                        <div class="card-content">
+                            <h4>Ceremonial Grade</h4>
+                            <p>Premium Uji Matcha</p>
+                            <div class="card-rating">★★★★★</div>
+                        </div>
+                    </div>
+                    <div class="product-card floating" style="--delay: 0.5s">
+                        <div class="card-image">🌿</div>
+                        <div class="card-content">
+                            <h4>Organic Blend</h4>
+                            <p>Nishio Region</p>
+                            <div class="card-rating">★★★★☆</div>
+                        </div>
+                    </div>
+                    <div class="product-card floating" style="--delay: 1s">
+                        <div class="card-image">✨</div>
+                        <div class="card-content">
+                            <h4>Limited Edition</h4>
+                            <p>Single Origin</p>
+                            <div class="card-rating">★★★★★</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Filters -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-header">
+                <h2>Find Your Perfect Match</h2>
+                <p>Filter by your preferences to discover matcha that suits your taste</p>
+            </div>
+            <div class="quick-filters" id="quickFilters">
+                <button class="filter-btn active" data-filter="all">
+                    <i class="fas fa-th"></i>
+                    <span>All Matcha</span>
+                </button>
+                <button class="filter-btn" data-filter="ceremonial">
+                    <i class="fas fa-crown"></i>
+                    <span>Ceremonial</span>
+                </button>
+                <button class="filter-btn" data-filter="premium">
+                    <i class="fas fa-star"></i>
+                    <span>Premium</span>
+                </button>
+                <button class="filter-btn" data-filter="culinary">
+                    <i class="fas fa-utensils"></i>
+                    <span>Culinary</span>
+                </button>
+                <button class="filter-btn" data-filter="organic">
+                    <i class="fas fa-leaf"></i>
+                    <span>Organic</span>
+                </button>
+                <button class="filter-btn" data-filter="trending">
+                    <i class="fas fa-fire"></i>
+                    <span>Trending</span>
+                </button>
+            </div>
+            
+            <div class="advanced-filters" id="advancedFilters">
+                <div class="filter-group">
+                    <label>Price Range</label>
+                    <div class="price-range">
+                        <input type="range" id="minPrice" min="0" max="200" value="0">
+                        <input type="range" id="maxPrice" min="0" max="200" value="200">
+                        <div class="price-display">
+                            <span id="priceDisplay">$0 - $200</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Origin</label>
+                    <select id="originFilter">
+                        <option value="">All Regions</option>
+                        <option value="uji">Uji, Japan</option>
+                        <option value="nishio">Nishio, Japan</option>
+                        <option value="kagoshima">Kagoshima, Japan</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label>Flavor Profile</label>
+                    <div class="flavor-tags" id="flavorTags">
+                        <button class="flavor-tag" data-flavor="sweet">Sweet</button>
+                        <button class="flavor-tag" data-flavor="umami">Umami</button>
+                        <button class="flavor-tag" data-flavor="grassy">Grassy</button>
+                        <button class="flavor-tag" data-flavor="nutty">Nutty</button>
+                        <button class="flavor-tag" data-flavor="creamy">Creamy</button>
+                        <button class="flavor-tag" data-flavor="earthy">Earthy</button>
+                    </div>
+                </div>
+                
+                <div class="filter-group">
+                    <div class="filter-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="inStockOnly">
+                            <span class="checkmark"></span>
+                            In Stock Only
+                        </label>
+                        <button class="clear-filters" id="clearFilters">
+                            <i class="fas fa-times"></i>
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Stats Bar -->
+    <div class="stats-bar" id="statsBar">
+        <div class="container">
+            <div class="stats-content">
+                <div class="stat-item">
+                    <i class="fas fa-eye"></i>
+                    <span id="liveViewers">0</span>
+                    <span>people browsing</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-box"></i>
+                    <span id="totalProducts">0</span>
+                    <span>premium matcha products</span>
+                </div>
+                <div class="stat-item">
+                    <i class="fas fa-sync"></i>
+                    <span>Updated</span>
+                    <span id="lastUpdate">just now</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-title">
+                    <h2 id="sectionTitle">Premium Matcha Collection</h2>
+                    <p id="sectionSubtitle">Discover exceptional matcha from verified Japanese producers</p>
+                </div>
+                <div class="section-controls">
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    <select id="sortSelect">
+                        <option value="relevance">Most Relevant</option>
+                        <option value="price_low">Price: Low to High</option>
+                        <option value="price_high">Price: High to Low</option>
+                        <option value="rating">Highest Rated</option>
+                        <option value="newest">Newest First</option>
+                        <option value="popularity">Most Popular</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Discovering your perfect matcha...</p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid" id="productsGrid">
+                <!-- Products will be dynamically loaded here -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="load-more-container" id="loadMoreContainer">
+                <button class="load-more-btn" id="loadMoreBtn">
+                    <span>Load More Premium Matcha</span>
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
+
+            <!-- No Results State -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <div class="no-results-icon">🔍</div>
+                <h3>No matcha found</h3>
+                <p>Try adjusting your filters or search terms</p>
+                <button class="btn-secondary" id="clearAllFilters">Clear All Filters</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recommendations Section -->
+    <section class="recommendations-section" id="recommendationsSection" style="display: none;">
+        <div class="container">
+            <div class="section-header">
+                <h2>Recommended For You</h2>
+                <p>Personalized matcha suggestions based on your preferences</p>
+            </div>
+            <div class="recommendations-grid" id="recommendationsGrid">
+                <!-- Recommendations will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <div class="features-header">
+                <h2>Why Choose Matcha Match?</h2>
+                <p>Experience the future of matcha discovery with our advanced platform</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>AI-Powered Recommendations</h3>
+                    <p>Our machine learning algorithms analyze your taste preferences to suggest the perfect matcha matches.</p>
+                    <div class="feature-stats">
+                        <span class="stat">98% accuracy</span>
+                        <span class="stat">10M+ data points</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Real-Time Inventory</h3>
+                    <p>Live stock updates and instant notifications when your favorite matcha becomes available.</p>
+                    <div class="feature-stats">
+                        <span class="stat">Sub-second updates</span>
+                        <span class="stat">10+ suppliers</span>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Smart Search</h3>
+                    <p>Advanced search with autocomplete, typo tolerance, and intelligent filtering across all products.</p>
+                    <div class="feature-stats">
+                        <span class="stat">Fuzzy matching</span>
+                        <span class="stat">Instant results</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-brand">
+                        <span class="brand-icon">🍵</span>
+                        <span class="brand-text">Matcha Match</span>
+                    </div>
+                    <p>Discover the perfect matcha with AI-powered recommendations and real-time inventory tracking.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Discover</h4>
+                    <ul>
+                        <li><a href="#ceremonial">Ceremonial Matcha</a></li>
+                        <li><a href="#premium">Premium Blends</a></li>
+                        <li><a href="#organic">Organic Selection</a></li>
+                        <li><a href="#trending">Trending Now</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Learn</h4>
+                    <ul>
+                        <li><a href="#guide">Matcha Guide</a></li>
+                        <li><a href="#brewing">Brewing Tips</a></li>
+                        <li><a href="#grades">Understanding Grades</a></li>
+                        <li><a href="#origins">Origins & Regions</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#help">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#shipping">Shipping Info</a></li>
+                        <li><a href="#returns">Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Matcha Match. Crafted with passion for premium tea.</p>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- Auth Modal -->
+    <div class="modal" id="authModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Sign In to Matcha Match</h2>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Auth forms will be dynamically loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <button class="modal-close" id="productModalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="productModalBody">
+                <!-- Product details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast" id="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+        <button class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/recommendations.js"></script>
+    <script src="js/websocket.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
