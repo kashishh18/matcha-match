@@ -1,0 +1,42 @@
+{"level":"info","message":"🚀 Starting Matcha Match server initialization...","timestamp":"2025-07-17T20:11:29.388Z"}
+{"level":"info","message":"✅ Database initialized successfully","timestamp":"2025-07-17T20:11:29.521Z"}
+{"level":"info","message":"🚀 Starting Matcha Match server initialization...","timestamp":"2025-07-17T20:12:29.558Z"}
+{"level":"info","message":"✅ Database initialized successfully","timestamp":"2025-07-17T20:12:29.679Z"}
+{"level":"info","message":"🚀 Starting Matcha Match server initialization...","timestamp":"2025-07-17T20:18:10.099Z"}
+{"level":"info","message":"✅ Database initialized successfully","timestamp":"2025-07-17T20:18:10.232Z"}
+{"level":"info","message":"✅ Redis initialized successfully","timestamp":"2025-07-17T20:18:10.233Z"}
+{"level":"info","message":"✅ Web scraper service initialized","timestamp":"2025-07-17T20:18:10.234Z"}
+{"level":"info","message":"✅ Advanced search service initialized","timestamp":"2025-07-17T20:18:10.234Z"}
+{"level":"info","message":"✅ Recommendation engine initialized","timestamp":"2025-07-17T20:18:10.235Z"}
+{"level":"info","message":"✅ Core services initialized successfully","timestamp":"2025-07-17T20:18:11.152Z"}
+{"level":"info","message":"🚀 Starting Matcha Match server initialization...","timestamp":"2025-07-17T20:24:38.887Z"}
+{"level":"info","message":"✅ Database initialized successfully","timestamp":"2025-07-17T20:24:39.012Z"}
+{"level":"info","message":"✅ Redis initialized successfully","timestamp":"2025-07-17T20:24:39.012Z"}
+{"level":"info","message":"✅ Web scraper service initialized","timestamp":"2025-07-17T20:24:39.013Z"}
+{"level":"info","message":"✅ Advanced search service initialized","timestamp":"2025-07-17T20:24:39.013Z"}
+{"level":"info","message":"✅ Recommendation engine initialized","timestamp":"2025-07-17T20:24:39.013Z"}
+{"level":"info","message":"✅ Core services initialized successfully","timestamp":"2025-07-17T20:24:40.965Z"}
+{"level":"info","message":"🚀 Starting Matcha Match server initialization...","timestamp":"2025-07-17T20:28:11.529Z"}
+{"level":"info","message":"✅ Database initialized successfully","timestamp":"2025-07-17T20:28:11.663Z"}
+{"level":"info","message":"✅ Redis initialized successfully","timestamp":"2025-07-17T20:28:11.663Z"}
+{"level":"info","message":"✅ Web scraper service initialized","timestamp":"2025-07-17T20:28:11.664Z"}
+{"level":"info","message":"✅ Advanced search service initialized","timestamp":"2025-07-17T20:28:11.664Z"}
+{"level":"info","message":"✅ Recommendation engine initialized","timestamp":"2025-07-17T20:28:11.665Z"}
+{"level":"info","message":"✅ Core services initialized successfully","timestamp":"2025-07-17T20:28:12.388Z"}
+{"level":"info","message":"✅ Express application configured","timestamp":"2025-07-17T20:28:12.396Z"}
+{"level":"info","message":"✅ WebSocket handlers configured","timestamp":"2025-07-17T20:28:12.397Z"}
+{"level":"info","message":"⏰ Background jobs scheduled successfully","timestamp":"2025-07-17T20:28:12.401Z"}
+{"level":"info","message":"✅ Background jobs scheduled","timestamp":"2025-07-17T20:28:12.401Z"}
+{"level":"info","message":"✅ Error handling configured","timestamp":"2025-07-17T20:28:12.401Z"}
+{"level":"info","message":"🎉 Matcha Match server initialization complete!","timestamp":"2025-07-17T20:28:12.401Z"}
+{"level":"info","message":"🚀 Matcha Match server running on port 3001","timestamp":"2025-07-17T20:28:12.403Z"}
+{"level":"info","message":"📡 WebSocket server ready for real-time features","timestamp":"2025-07-17T20:28:12.403Z"}
+{"level":"info","message":"🔍 Health check: http://localhost:3001/api/health","timestamp":"2025-07-17T20:28:12.403Z"}
+{"level":"info","message":"📖 API documentation: http://localhost:3001/","timestamp":"2025-07-17T20:28:12.403Z"}
+{"level":"info","message":"🔧 Development mode - CORS enabled for http://localhost:3000","timestamp":"2025-07-17T20:28:12.403Z"}
+{"level":"info","message":"🤖 Generating batch recommendations...","timestamp":"2025-07-17T21:00:00.339Z"}
+{"level":"info","message":"🕷️ Starting scheduled scraping job...","timestamp":"2025-07-17T22:00:00.241Z"}
+{"level":"info","message":"🔍 Rebuilding search index...","timestamp":"2025-07-17T22:00:00.258Z"}
+{"level":"info","message":"✅ Search index rebuilt successfully","timestamp":"2025-07-17T22:00:00.258Z"}
+{"level":"info","message":"🤖 Generating batch recommendations...","timestamp":"2025-07-17T22:00:00.258Z"}
+{"level":"info","message":"✅ Scheduled scraping completed successfully","timestamp":"2025-07-17T22:00:28.664Z"}

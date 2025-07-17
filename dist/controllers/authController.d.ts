@@ -1,0 +1,40 @@
+import { Request, Response } from 'express';
+import { Knex } from 'knex';
+import Redis from 'redis';
+export declare class AuthController {
+    private db;
+    private redis;
+    private logger;
+    private emailTransporter;
+    private loginLimiter;
+    private registrationLimiter;
+    constructor(database: Knex, redisClient: Redis.RedisClientType);
+    register: (req: Request, res: Response) => Promise<void>;
+    login: (req: Request, res: Response) => Promise<void>;
+    refreshToken: (req: Request, res: Response) => Promise<void>;
+    logout: (req: Request, res: Response) => Promise<void>;
+    verifyEmail: (req: Request, res: Response) => Promise<void>;
+    resendVerification: (req: Request, res: Response) => Promise<void>;
+    requestPasswordReset: (req: Request, res: Response) => Promise<void>;
+    resetPassword: (req: Request, res: Response) => Promise<void>;
+    getProfile: (req: Request, res: Response) => Promise<void>;
+    updateProfile: (req: Request, res: Response) => Promise<void>;
+    private generateAccessToken;
+    private generateRefreshToken;
+    private sendVerificationEmail;
+    private sendPasswordResetEmail;
+    private trackLoginAttempt;
+    private trackAuthEvent;
+    private createSuccessResponse;
+    private createErrorResponse;
+}
+export declare const authValidations: {
+    register: import("express-validator").ValidationChain[];
+    login: import("express-validator").ValidationChain[];
+    refreshToken: import("express-validator").ValidationChain[];
+    resendVerification: import("express-validator").ValidationChain[];
+    requestPasswordReset: import("express-validator").ValidationChain[];
+    resetPassword: import("express-validator").ValidationChain[];
+    updateProfile: import("express-validator").ValidationChain[];
+};
+export default AuthController;

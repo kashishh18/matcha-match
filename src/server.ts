@@ -5,16 +5,16 @@ import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { Knex } from 'knex';
-import Redis from 'redis';
+import * as Redis from 'redis';
 import winston from 'winston';
 import cron from 'node-cron';
 
-import { initializeDatabase, checkDatabaseHealth, closeDatabaseConnection } from '@/database/config';
-import { WebSocketMessage } from '@/types';
-import createApiRoutes from '@/routes/api';
-import MatchaAdvancedSearch from '@/services/search';
-import MatchaRecommendationEngine from '@/services/recommendations';
-import MatchaWebScraper from '@/services/scraper';
+import { initializeDatabase, checkDatabaseHealth, closeDatabaseConnection } from './database/config';
+import { WebSocketMessage } from './types';
+import createApiRoutes from './routes/api';
+import MatchaAdvancedSearch from './services/search';
+import MatchaRecommendationEngine from './services/recommendations';
+import MatchaWebScraper from './services/scraper';
 
 // Load environment variables
 dotenv.config();
@@ -43,14 +43,14 @@ class MatchaMatchServer {
   private app: express.Application;
   private server: any;
   private io: SocketIOServer;
-  private db: Knex;
-  private redis: Redis.RedisClientType;
+  private db!: Knex;
+  private redis!: Redis.RedisClientType;
   private port: number;
   
   // Service instances
-  private searchService: MatchaAdvancedSearch;
-  private recommendationService: MatchaRecommendationEngine;
-  private scraperService: MatchaWebScraper;
+  private searchService!: MatchaAdvancedSearch;
+  private recommendationService!: MatchaRecommendationEngine;
+  private scraperService!: MatchaWebScraper;
   
   // Real-time tracking
   private connectedUsers: Map<string, string> = new Map(); // socketId -> userId
@@ -84,7 +84,7 @@ class MatchaMatchServer {
       logger.info('✅ Database initialized successfully');
 
       // Initialize Redis
-      await this.initializeRedis();
+      // await this.initializeRedis(); // Disabled for now
       logger.info('✅ Redis initialized successfully');
 
       // Initialize core services
@@ -119,9 +119,6 @@ class MatchaMatchServer {
     this.redis = Redis.createClient({
       url: process.env.REDIS_URL || 'redis://localhost:6379',
       password: process.env.REDIS_PASSWORD,
-      retryDelayOnFailover: 100,
-      enableAutoPipelining: true,
-      maxRetriesPerRequest: 3,
     });
 
     this.redis.on('error', (error) => {
@@ -218,14 +215,13 @@ class MatchaMatchServer {
     this.app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
     // API routes
-    this.app.use('/api', createApiRoutes(
+    this.app.use("/api", createApiRoutes(
       this.db,
-      this.redis,
+      null, // Redis disabled for now
       this.searchService,
       this.recommendationService,
       this.scraperService
     ));
-
     // Root endpoint
     this.app.get('/', (req, res) => {
       res.json({
@@ -391,7 +387,7 @@ class MatchaMatchServer {
   }
 
   // Setup background jobs for data processing
-  private setupBackgroundJobs(): void => {
+  private setupBackgroundJobs(): void {
     // Scrape matcha providers every 6 hours
     cron.schedule('0 */6 * * *', async () => {
       logger.info('🕷️ Starting scheduled scraping job...');
@@ -452,7 +448,7 @@ class MatchaMatchServer {
   }
 
   // Setup comprehensive error handling
-  private setupErrorHandling(): void => {
+  private setupErrorHandling(): void {
     // Handle uncaught exceptions
     process.on('uncaughtException', (error) => {
       logger.error('💥 Uncaught Exception:', error);

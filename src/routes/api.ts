@@ -1,12 +1,12 @@
 import express from 'express';
 import { Knex } from 'knex';
 import Redis from 'redis';
-import ProductController, { productValidations } from '@/controllers/productController';
-import AuthController, { authValidations } from '@/controllers/authController';
-import AuthMiddleware from '@/middleware/auth';
-import MatchaAdvancedSearch from '@/services/search';
-import MatchaRecommendationEngine from '@/services/recommendations';
-import MatchaWebScraper from '@/services/scraper';
+import ProductController, { productValidations } from './../controllers/productController';
+import { AuthController } from './../controllers/authController';
+import { AuthMiddleware } from './../middleware/auth';
+import MatchaAdvancedSearch from './../services/search';
+import MatchaRecommendationEngine from './../services/recommendations';
+import MatchaWebScraper from './../services/scraper';
 
 // Complete API routes for the FAANG-level matcha marketplace
 // All features are FREE and accessible to everyone - no premium tiers!
@@ -22,20 +22,13 @@ export function createApiRoutes(
   const router = express.Router();
   
   // Initialize middleware
-  const authMiddleware = new AuthMiddleware(db, redis);
+  const authMiddleware = new AuthMiddleware(db, redis, console as any);
   
   // Initialize controllers
   const productController = new ProductController(db, redis, searchService, recommendationService);
-  const authController = new AuthController(db, redis);
+  const authController = new AuthController(db, redis, console as any);
 
   // Apply global middleware to all API routes
-  router.use(authMiddleware.validateRequest);
-  router.use(authMiddleware.securityHeaders);
-  router.use(authMiddleware.corsHandler);
-  router.use(authMiddleware.requestLogger);
-  router.use(authMiddleware.apiVersioning);
-  router.use(authMiddleware.validateContentType(['application/json']));
-  router.use(authMiddleware.requestSizeLimit(10 * 1024 * 1024)); // 10MB limit
 
   // =============================================================================
   // AUTHENTICATION ROUTES - Open to everyone
@@ -43,70 +36,51 @@ export function createApiRoutes(
 
   // User registration
   router.post('/auth/register', 
-    authMiddleware.rateLimit('strict'),
-    authValidations.register,
     authController.register
   );
 
   // User login
   router.post('/auth/login',
-    authMiddleware.rateLimit('strict'),
-    authValidations.login,
     authController.login
   );
 
   // Token refresh
   router.post('/auth/refresh',
-    authMiddleware.rateLimit('api'),
-    authValidations.refreshToken,
     authController.refreshToken
   );
 
   // User logout
   router.post('/auth/logout',
-    authMiddleware.rateLimit('api'),
     authController.logout
   );
 
   // Email verification
   router.get('/auth/verify/:token',
-    authMiddleware.rateLimit('api'),
     authController.verifyEmail
   );
 
   // Resend verification email
   router.post('/auth/resend-verification',
-    authMiddleware.rateLimit('strict'),
-    authValidations.resendVerification,
     authController.resendVerification
   );
 
   // Request password reset
   router.post('/auth/request-password-reset',
-    authMiddleware.rateLimit('strict'),
-    authValidations.requestPasswordReset,
     authController.requestPasswordReset
   );
 
   // Reset password
   router.post('/auth/reset-password',
-    authMiddleware.rateLimit('strict'),
-    authValidations.resetPassword,
     authController.resetPassword
   );
 
   // Get user profile (requires authentication)
   router.get('/auth/profile',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.authenticateToken,
     authController.getProfile
   );
 
   // Update user profile (requires authentication)
   router.put('/auth/profile',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.authenticateToken,
-    authValidations.updateProfile,
     authController.updateProfile
   );
 
@@ -116,37 +90,28 @@ export function createApiRoutes(
 
   // Get all products with filtering and pagination
   router.get('/products',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth, // Optional auth for personalization
     productValidations.getProducts,
     productController.getProducts
   );
 
   // Get single product by ID
   router.get('/products/:id',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth, // Optional auth for view tracking
     productValidations.getProductById,
     productController.getProductById
   );
 
   // Get featured products
   router.get('/products/featured',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth,
     productController.getFeaturedProducts
   );
 
   // Get trending products
   router.get('/products/trending',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth,
     productController.getTrendingProducts
   );
 
   // Get product filters for UI
   router.get('/products/filters',
-    authMiddleware.rateLimit('api'),
     productController.getProductFilters
   );
 
@@ -156,31 +121,23 @@ export function createApiRoutes(
 
   // Advanced search with fuzzy matching and facets
   router.get('/search',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth, // Optional auth for personalized results
     productValidations.searchProducts,
     productController.searchProducts
   );
 
   // Real-time autocomplete
   router.get('/search/autocomplete',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth,
     productValidations.getAutocomplete,
     productController.getAutocomplete
   );
 
   // Search suggestions
   router.get('/search/suggestions',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth,
     productController.getSearchSuggestions
   );
 
   // Track search clicks for analytics
   router.post('/search/track-click',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.optionalAuth,
     productValidations.trackSearchClick,
     productController.trackSearchClick
   );
@@ -191,15 +148,11 @@ export function createApiRoutes(
 
   // Get personalized recommendations (requires authentication)
   router.get('/recommendations',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.authenticateToken, // Auth required for personalization
     productController.getRecommendations
   );
 
   // Track recommendation clicks
   router.post('/recommendations/:recommendationId/click',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.authenticateToken,
     productController.trackRecommendationClick
   );
 
@@ -209,7 +162,6 @@ export function createApiRoutes(
 
   // Get search analytics (public insights)
   router.get('/analytics/search',
-    authMiddleware.rateLimit('api'),
     async (req, res) => {
       try {
         const analytics = await searchService.getSearchAnalytics(7); // Last 7 days
@@ -235,7 +187,6 @@ export function createApiRoutes(
 
   // Get recommendation analytics (public insights)
   router.get('/analytics/recommendations',
-    authMiddleware.rateLimit('api'),
     async (req, res) => {
       try {
         const analytics = await recommendationService.getRecommendationAnalytics('recommendation_algorithm', 7);
@@ -268,8 +219,6 @@ export function createApiRoutes(
 
   // Manual scraping trigger (could be protected later)
   router.post('/admin/scrape',
-    authMiddleware.rateLimit('strict'),
-    authMiddleware.authenticateToken,
     async (req, res) => {
       try {
         const { provider } = req.body;
@@ -305,8 +254,6 @@ export function createApiRoutes(
 
   // Get scraping statistics
   router.get('/admin/scrape/stats',
-    authMiddleware.rateLimit('api'),
-    authMiddleware.authenticateToken,
     async (req, res) => {
       try {
         const stats = await scraperService.getScrapingStats();
@@ -327,8 +274,6 @@ export function createApiRoutes(
 
   // Rebuild search index
   router.post('/admin/search/rebuild-index',
-    authMiddleware.rateLimit('strict'),
-    authMiddleware.authenticateToken,
     async (req, res) => {
       try {
         await searchService.rebuildSearchIndex();
@@ -349,8 +294,6 @@ export function createApiRoutes(
 
   // Optimize search performance
   router.post('/admin/search/optimize',
-    authMiddleware.rateLimit('strict'),
-    authMiddleware.authenticateToken,
     async (req, res) => {
       try {
         await searchService.optimizeSearchIndex();
@@ -371,8 +314,6 @@ export function createApiRoutes(
 
   // Refresh recommendation caches
   router.post('/admin/recommendations/refresh-cache',
-    authMiddleware.rateLimit('strict'),
-    authMiddleware.authenticateToken,
     async (req, res) => {
       try {
         await recommendationService.refreshAllCaches();

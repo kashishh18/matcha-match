@@ -9,7 +9,7 @@ import {
   SearchFilters, 
   MatchaGrade, 
   FlavorProfile 
-} from '@/types';
+} from '../types';
 import MatchaAdvancedSearch from '@/services/search';
 import MatchaRecommendationEngine from '@/services/recommendations';
 
@@ -143,7 +143,7 @@ export class ProductController {
           }
         },
         timestamp: new Date(),
-        requestId: req.requestId
+        requestId: (req as any).requestId
       };
 
       const responseTime = Date.now() - startTime;
@@ -198,7 +198,7 @@ export class ProductController {
           similarProducts
         },
         timestamp: new Date(),
-        requestId: req.requestId
+        requestId: (req as any).requestId
       };
 
       const responseTime = Date.now() - startTime;
@@ -274,7 +274,7 @@ export class ProductController {
       }
 
       // Perform search
-      const userId = req.user?.id; // Assuming auth middleware sets req.user
+      const userId = (req as any).user?.id; // Assuming auth middleware sets (req as any).user
       const offset = (Number(page) - 1) * Number(limit);
       
       const searchResults = await this.searchService.search(
@@ -314,7 +314,7 @@ export class ProductController {
           analytics: searchResults.analytics
         },
         timestamp: new Date(),
-        requestId: req.requestId
+        requestId: (req as any).requestId
       };
 
       res.json(response);
@@ -352,7 +352,7 @@ export class ProductController {
   getSearchSuggestions = async (req: Request, res: Response): Promise<void> => {
     try {
       const { limit = 5 } = req.query;
-      const userId = req.user?.id;
+      const userId = (req as any).user?.id;
 
       const suggestions = await this.searchService.getSearchSuggestions(userId, Number(limit));
 
@@ -367,7 +367,7 @@ export class ProductController {
   // Get personalized recommendations for a user
   getRecommendations = async (req: Request, res: Response): Promise<void> => {
     try {
-      const userId = req.user?.id;
+      const userId = (req as any).user?.id;
       
       if (!userId) {
         res.status(401).json(this.createErrorResponse('Authentication required for recommendations'));
@@ -444,7 +444,7 @@ export class ProductController {
       const trendingProducts = await this.db('matcha_products')
         .leftJoin('analytics', function() {
           this.on('analytics.data->>"productId"', '=', 'matcha_products.id')
-              .andOn('analytics.timestamp', '>', this.db.raw('?', [startDate]));
+              .andOn('analytics.timestamp', '>', startDate.toISOString());
         })
         .join('matcha_providers', 'matcha_products.provider_id', 'matcha_providers.id')
         .select(
@@ -545,7 +545,7 @@ export class ProductController {
         name: product.provider_name || product.provider,
         baseUrl: '',
         isActive: true,
-        scrapeConfig: {},
+        scrapeConfig: { productListUrl: "", productSelector: "", nameSelector: "", priceSelector: "", stockSelector: "", imageSelector: "", descriptionSelector: "", headers: {}, rateLimit: 60 },
         lastScraped: new Date(),
         averageResponseTime: 0,
         successRate: 100
@@ -584,8 +584,8 @@ export class ProductController {
     try {
       await this.db('analytics').insert({
         event: 'product_view',
-        user_id: req.user?.id || null,
-        session_id: req.sessionID || 'anonymous',
+        user_id: (req as any).user?.id || null,
+        session_id: (req as any).sessionId || 'anonymous',
         data: JSON.stringify({
           productId,
           productName,
@@ -605,8 +605,8 @@ export class ProductController {
     try {
       await this.db('analytics').insert({
         event: 'product_list_view',
-        user_id: req.user?.id || null,
-        session_id: req.sessionID || 'anonymous',
+        user_id: (req as any).user?.id || null,
+        session_id: (req as any).sessionId || 'anonymous',
         data: JSON.stringify({
           resultCount,
           filters: req.query,

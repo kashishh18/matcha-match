@@ -2,7 +2,7 @@ import axios, { AxiosInstance } from 'axios';
 import * as cheerio from 'cheerio';
 import { Knex } from 'knex';
 import winston from 'winston';
-import { MatchaProduct, MatchaProvider, MatchaGrade, FlavorProfile } from '@/types';
+import { MatchaProduct, MatchaProvider, MatchaGrade, FlavorProfile } from '../types';
 
 // COMPLETE web scraping system for all 10 matcha providers
 // This actually scrapes real data from live websites
